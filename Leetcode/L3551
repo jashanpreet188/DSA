@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int minSwaps(vector<int>& nums) {
+        // return 0;
+        int n=nums.size();
+        vector<vector<int>> arr;
+    for(int i=0;i<n;i++){
+        int sum=0;
+        int cpy=nums[i];
+        while(cpy){
+            sum+=(cpy%10);
+            cpy/=10;
+
+        }
+        arr.push_back({sum,nums[i],i});
+    }
+        vector<vector<int>> capy=arr;
+        sort(arr.begin(),arr.end(),[](vector<int>& a,vector<int>& b){
+           if(a[0]!=b[0]) return a[0]<b[0];
+            return a[1]<b[1];
+        });
+        int ans=0;
+        unordered_map<int,int> m;
+        for(int i=0;i<n;i++){
+            m[capy[i][1]]=i;
+        }
+        for(int i=0;i<n;i++){
+            // int ind=arr[i][2];
+            int el=arr[i][1];
+            // cout<<capy[i][1]<<" ";
+            // cout<<el<<" ";
+            int ind=m[el];
+            // cout<<m[6]<<" ";
+            if(ind!=i){
+                // swap(m[el],m[capy[i][1]]);
+                m[el]=i;
+                m[capy[i][1]]=ind;
+                swap(capy[ind][1],capy[i][1]);
+                // cout<<m[el]<<" "<<m[capy[i][1]]<<"\n";
+                ans++;
+            }
+            
+        }
+        return ans;
+
+    }
+};
